@@ -1,17 +1,21 @@
 $(document).ready(function(){
-    let player = $('#player')
-    let gold = $('#gold')
+    let player = $("#player")
+    let gold = $("#gold")
+    let playerScore = 0
     let speed = 10
     let dashSpeed = 100
-    let isDashing = false
     let dashReady = true
-    //Initial player position
+    //Initial player and gold position
     let position = {
-        top: parseInt(player.css('top')),
-        left: parseInt(player.css('left'))
+        top: parseInt(player.css("top")),
+        left: parseInt(player.css("left"))
+    }
+    let goldPosition = {
+        top: parseInt(gold.css("top")),
+        left: parseInt(gold.css("left"))
     }
     //Function for handling key press events for movement
-    $(document).on('keydown', function(event){
+    $(document).on("keydown", function(event){
         let newTop = position.top
         let newLeft = position.left
 
@@ -29,27 +33,47 @@ $(document).ready(function(){
                 newTop += speed
                 break;
         }
-
         if (dashReady) {
             switch(event.which) {
                 case 37: //Left arrow
+                    dashAnimation()
                     newLeft -= dashSpeed
+                    dashCooldown()
                     break;
                 case 38: //Up arrow
+                    dashAnimation()
                     newTop -= dashSpeed
+                    dashCooldown()
                     break;
                 case 39: //Right arrow
+                    dashAnimation()
                     newLeft += dashSpeed
+                    dashCooldown()
                     break;
                 case 40: //Down arrow
+                    dashAnimation()
                     newTop += dashSpeed
+                    dashCooldown()
                     break;
             }
+        }
+        function dashAnimation() {
+            $("#player").css("background-color","white")
+            setTimeout(function(){$("#player").css("background-color","#CFC")}, 75)
+            setTimeout(function(){$("#player").css("background-color","#8F8")}, 150)
+            setTimeout(function(){$("#player").css("background-color","#4F4")}, 225)
+            setTimeout(function(){$("#player").css("background-color","#0F0")}, 300)
+        }
+        function dashCooldown() {
+            dashReady = false
+            let cooldown = setTimeout(function(){
+                dashReady = true
+            }, 1500)
         }
 
         //Check for wall collisions
         let collision = false
-        $('#game-container').each(function(){
+        $("#game-container").each(function(){
             let wall = $(this)[0].getBoundingClientRect()
             let playerRect = {top:newTop, left:newLeft, right:newLeft+20, bottom:newTop+20}
             if(
