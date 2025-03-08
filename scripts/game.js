@@ -8,10 +8,6 @@ $(document).ready(function(){
         top: parseInt(player.css("top")),
         left: parseInt(player.css("left"))
     }
-    let goldLocation = {
-        top: parseInt(gold.css("top")),
-        left: parseInt(gold.css("left"))
-    }
     //Function for handling key press events for movement
     $(document).on("keydown", function(event){
         let newTop = position.top
