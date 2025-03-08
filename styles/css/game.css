@@ -68,12 +68,12 @@ html, body {
   left: 50%;
 }
 
-#gold {
+.gold {
   background-color: #FF0;
   width: 30px;
   height: 30px;
   position: absolute;
   top: 50%;
   left: 25%;
-  visibility: hidden;
+  visibility: visible;
 }/*# sourceMappingURL=game.css.map */

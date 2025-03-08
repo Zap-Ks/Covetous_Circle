@@ -1,7 +1,5 @@
 $(document).ready(function(){
     let player = $("#player")
-    let gold = $("#gold")
-    let playerScore = 0
     let speed = 10
     let dashSpeed = 100
     let dashReady = true
@@ -10,7 +8,7 @@ $(document).ready(function(){
         top: parseInt(player.css("top")),
         left: parseInt(player.css("left"))
     }
-    let goldPosition = {
+    let goldLocation = {
         top: parseInt(gold.css("top")),
         left: parseInt(gold.css("left"))
     }
@@ -71,7 +69,6 @@ $(document).ready(function(){
             }, 1500)
         }
 
-        //Check for wall collisions
         let collision = false
         $("#game-container").each(function(){
             let wall = $(this)[0].getBoundingClientRect()
