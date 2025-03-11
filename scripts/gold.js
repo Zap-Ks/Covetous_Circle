@@ -1,7 +1,9 @@
 $(document).ready(function(){
     let player = $("#player")
     let gold = $(".gold")
+    let score = $(".score")
     let playerScore = 0
+    let isSpawning = false
     let goldPresent = false
     let goldPosition = {
         top: parseInt(gold.css("top")),
@@ -9,45 +11,50 @@ $(document).ready(function(){
     }
 
     let goldSpawner = setInterval(function(){
-        if (!goldPresent) {
-            goldPresent = true
-            let spawnTime = Math.round(Math.random() * 5000 + 3000)
+        if (!isSpawning) {
+            isSpawning = true
+            let spawnTime = Math.round(Math.random() * 5000 + 5000)
             setTimeout(function(){
-                goldPosition.top = Math.round(Math.random() * (screen.width*0.8) + (screen.width/10))
-                goldPosition.left = Math.round(Math.random() * (screen.height*0.8) + (screen.height/10))
+                goldPosition.top = Math.round(Math.random() * (screen.height/10 * 8) + (screen.height/10))
+                goldPosition.left = Math.round(Math.random() * (screen.width/10 * 6) + (screen.width/10))
                 gold.css({top: goldPosition.top, left: goldPosition.left})
                 gold.css("visibility","visible")
+                goldPresent = true
             }, spawnTime)
         }
     }, 1)
 
     $(document).on("keydown", function(event){
-        let screenWidth = screen.width;
-        let screenHeight = screen.height;
-        let playerPosition = {
-            top: parseInt(player.css("top")),
-            left: parseInt(player.css("left"))
-        }
-        let collision = false
-        $("#gold").each(function(){
-            let goldRect = $(this).getBoundingClientRect()
-            let playerRect = {top:playerPosition.top, left:playerPosition.left, right:playerPosition.left+20, bottom:playerPosition.top+20}
-            if(
-                playerRect.left < goldRect.left &&
-                playerRect.right > goldRect.right &&
-                playerRect.top < goldRect.top &&
-                playerRect.bottom > goldRect.bottom
-            ){
-                if (goldPresent) {
-                    collision = true
-                    return false
-                }
+        let playerBox = player[0].getBoundingClientRect()
+        let goldBox = gold[0].getBoundingClientRect()
+        if (
+            playerBox.right > goldBox.left &&
+            playerBox.left < goldBox.right &&
+            playerBox.bottom > goldBox.top &&
+            playerBox.top < goldBox.bottom
+        ){
+            if (goldPresent) {
+                goldPresent = false
+                gold.css("visibility","hidden")
+                isSpawning = false
+                playerScore++
+                updateScore()
             }
-        })
-        if(collision) {
-            goldPresent = false
-            playerScore++
-            gold.css("visibility","hidden")
         }
     })
+
+    function updateScore() {
+        if (playerScore < 10) {
+            let scoreString = `000${playerScore}`
+            score.html(scoreString)
+        } else if (playerScore < 100) {
+            let scoreString = `00${playerScore}`
+            score.html(scoreString)
+        } else if (playerScore < 1000) {
+            let scoreString = `0${playerScore}`
+            score.html(scoreString)
+        } else {
+            score.html(playerScore)
+        }
+    }
 })
