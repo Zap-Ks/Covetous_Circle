@@ -83,15 +83,26 @@ html, body {
 
 .obstacle {
   background-color: #F00;
-}
-
-.box-1 {
-  background-color: #F00;
-  width: 20%;
-  height: 10%;
   position: absolute;
   top: 50%;
   left: 25%;
   z-index: 1;
+}
+
+.box-1 {
+  width: 25%;
+  height: 15%;
+  visibility: hidden;
+}
+
+.box-2 {
+  width: 10%;
+  height: 30%;
+  visibility: hidden;
+}
+
+.box-3 {
+  width: 20%;
+  height: 25%;
   visibility: hidden;
 }/*# sourceMappingURL=game.css.map */

@@ -15,8 +15,8 @@ $(document).ready(function(){
             isSpawning = true
             let spawnTime = Math.round(Math.random() * 5000 + 5000)
             setTimeout(function(){
-                goldPosition.top = Math.round(Math.random() * (screen.height/10 * 8) + (screen.height/10))
-                goldPosition.left = Math.round(Math.random() * (screen.width/10 * 6) + (screen.width/10))
+                goldPosition.top = Math.random() * (screen.height/10 * 7) + (screen.height/10)
+                goldPosition.left = Math.random() * (screen.width/10 * 8) + (screen.width/10)
                 gold.css({top: goldPosition.top, left: goldPosition.left})
                 gold.css("visibility","visible")
                 goldPresent = true
