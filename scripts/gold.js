@@ -2,15 +2,17 @@ $(document).ready(function(){
     let player = $("#player")
     let gold = $(".gold")
     let score = $(".score")
+    let finalScore = $(".final-score")
     let playerScore = 0
     let isSpawning = false
     let goldPresent = false
+    let goldSpawner;
     let goldPosition = {
         top: parseInt(gold.css("top")),
         left: parseInt(gold.css("left"))
     }
 
-    let goldSpawner = setInterval(function(){
+    goldSpawner = setInterval(function(){
         if (!isSpawning) {
             isSpawning = true
             let spawnTime = Math.round(Math.random() * 5000 + 5000)
@@ -47,14 +49,18 @@ $(document).ready(function(){
         if (playerScore < 10) {
             let scoreString = `000${playerScore}`
             score.html(scoreString)
+            finalScore.html(`Score: ${scoreString}`)
         } else if (playerScore < 100) {
             let scoreString = `00${playerScore}`
             score.html(scoreString)
+            finalScore.html(`Score: ${scoreString}`)
         } else if (playerScore < 1000) {
             let scoreString = `0${playerScore}`
             score.html(scoreString)
+            ffinalScore.html(`Score: ${scoreString}`)
         } else {
             score.html(playerScore)
+            finalScore.html(`Score: ${playerScore}`)
         }
     }
 })
