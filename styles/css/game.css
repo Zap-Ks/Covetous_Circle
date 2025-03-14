@@ -191,4 +191,39 @@ html, body {
   width: 5%;
   height: 100%;
   visibility: hidden;
+}
+
+.circle-1 {
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  visibility: hidden;
+}
+
+.circle-2 {
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  visibility: hidden;
+}
+
+.circle-3 {
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  visibility: hidden;
+}
+
+.circle-4 {
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  visibility: hidden;
+}
+
+.circle-5 {
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  visibility: hidden;
 }/*# sourceMappingURL=game.css.map */
