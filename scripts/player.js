@@ -53,9 +53,9 @@ $(document).ready(function(){
         }
         function dashAnimation() {
             $("#player").css("background-color","white")
-            setTimeout(function(){$("#player").css("background-color","#CFC")}, 75)
-            setTimeout(function(){$("#player").css("background-color","#8F8")}, 150)
-            setTimeout(function(){$("#player").css("background-color","#4F4")}, 225)
+            setTimeout(function(){$("#player").css("background-color","#BFB")}, 75)
+            setTimeout(function(){$("#player").css("background-color","#7F7")}, 150)
+            setTimeout(function(){$("#player").css("background-color","#3F3")}, 225)
             setTimeout(function(){$("#player").css("background-color","#0F0")}, 300)
         }
         function dashCooldown() {
