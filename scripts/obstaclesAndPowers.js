@@ -19,6 +19,7 @@ $(document).ready(function(){
     let line2Spawner;
     let line3Spawner;
     let line4Spawner;
+    let circlesSpawner;
     let box1 = $(".box-1")
     let box2 = $(".box-2")
     let box3 = $(".box-3")
@@ -26,6 +27,11 @@ $(document).ready(function(){
     let line2 = $(".line-2")
     let line3 = $(".line-3")
     let line4 = $(".line-4")
+    let circle1 = $(".circle-1")
+    let circle2 = $(".circle-2")
+    let circle3 = $(".circle-3")
+    let circle4 = $(".circle-4")
+    let circle5 = $(".circle-5")
     let box1Position = {top: parseInt(box1.css("top")), left: parseInt(box1.css("left"))}
     let box2Position = {top: parseInt(box2.css("top")), left: parseInt(box2.css("left"))}
     let box3Position = {top: parseInt(box3.css("top")), left: parseInt(box3.css("left"))}
@@ -33,6 +39,11 @@ $(document).ready(function(){
     let line2Position = {top: parseInt(line2.css("top")), left: parseInt(line2.css("left"))}
     let line3Position = {top: parseInt(line3.css("top")), left: parseInt(line3.css("left"))}
     let line4Position = {top: parseInt(line4.css("top")), left: parseInt(line4.css("left"))}
+    let circle1Position = {top: parseInt(circle1.css("top")), left: parseInt(circle1.css("left"))}
+    let circle2Position = {top: parseInt(circle2.css("top")), left: parseInt(circle2.css("left"))}
+    let circle3Position = {top: parseInt(circle3.css("top")), left: parseInt(circle3.css("left"))}
+    let circle4Position = {top: parseInt(circle4.css("top")), left: parseInt(circle4.css("left"))}
+    let circle5Position = {top: parseInt(circle5.css("top")), left: parseInt(circle5.css("left"))}
 
     function gameOver() {
         $("#player").css("position","static")
@@ -48,10 +59,12 @@ $(document).ready(function(){
         finalTime.html(`Time Survived: ${timeSurvived}`)
     }, 1000)
 
-    updateLevel = setInterval(function(){
-        levelText.html(`Level ${level}`)
-        finalLevel.html(`Level Reached: ${level}`)
-    }, 1)
+    setTimeout(function(){
+        updateLevel = setInterval(function(){
+            levelText.html(`Level ${level}`)
+            finalLevel.html(`Level Reached: ${level}`)
+        }, 1)
+    }, 8000)
 
     let updateHealth = setInterval(function(){
         $(".hitpoint").each(function(){
@@ -86,7 +99,7 @@ $(document).ready(function(){
         for (let i = 0; i < 0.5; i+=0.0375) {
             obstacle.animate({opacity: i}, 100)
         }
-        obstacle.animate({opacity: 1}, 1)
+        obstacle.animate({opacity: 1}, 0)
         let counter = 0
         setTimeout(function(){
             let attackDuration = setInterval(function(){
@@ -112,6 +125,77 @@ $(document).ready(function(){
                     }
                 }
                 if (counter >= 150) {
+                    clearInterval(attackDuration)
+                    obstacle.css("visibility","hidden")
+                }
+            }, 1)
+        }, 1500)
+    }
+
+    function groupAttack(c1, c2, c3, c4, c5) {
+        c1.animate({opacity: 0}, 0)
+        c2.animate({opacity: 0}, 0)
+        c3.animate({opacity: 0}, 0)
+        c4.animate({opacity: 0}, 0)
+        c5.animate({opacity: 0}, 0)
+        c1.css("visibility","visible")
+        c2.css("visibility","visible")
+        c3.css("visibility","visible")
+        c4.css("visibility","visible")
+        c5.css("visibility","visible")
+        for (let i = 0; i < 0.5; i+=0.0375) {
+            c1.animate({opacity: i}, 100)
+            c2.animate({opacity: i}, 100)
+            c3.animate({opacity: i}, 100)
+            c4.animate({opacity: i}, 100)
+            c5.animate({opacity: i}, 100)
+        }
+        c1.animate({opacity: 1}, 0)
+        circleAttack(c1)
+        setTimeout(function(){
+            c2.animate({opacity: 1}, 1)
+            circleAttack(c2)
+            setTimeout(function(){
+                c3.animate({opacity: 1}, 1)
+                circleAttack(c3)
+                setTimeout(function(){
+                    c4.animate({opacity: 1}, 1)
+                    circleAttack(c4)
+                    setTimeout(function(){
+                        c5.animate({opacity: 1}, 1)
+                        circleAttack(c5)
+                    }, 250)
+                }, 250)
+            }, 250)
+        }, 250)
+    }
+
+    function circleAttack(obstacle) {
+        let counter = 0
+        setTimeout(function(){
+            let attackDuration = setInterval(function(){
+                counter++
+                let playerBox = player[0].getBoundingClientRect()
+                let obstacleBox = obstacle[0].getBoundingClientRect()
+                if (
+                    playerBox.right > obstacleBox.left &&
+                    playerBox.left < obstacleBox.right &&
+                    playerBox.bottom > obstacleBox.top &&
+                    playerBox.top < obstacleBox.bottom
+                ){
+                    if (!invincible) {
+                        clearInterval(attackDuration)
+                        playerHealth--
+                        obstacle.css("background-color","white")
+                        player.css("background-color","#F00")
+                        setTimeout(function(){
+                            obstacle.css("visibility","hidden")
+                            obstacle.css("background-color","red")
+                            player.css("background-color","#0F0")
+                        }, 250)
+                    }
+                }
+                if (counter >= 75) {
                     clearInterval(attackDuration)
                     obstacle.css("visibility","hidden")
                 }
@@ -170,6 +254,34 @@ $(document).ready(function(){
         }, 500)
     }, 45000)
 
+    let level3Delay = setTimeout(function(){
+        setTimeout(function(){level++}, 10000)
+        circlesSpawner = setInterval(function(){
+            // Circle 1
+            circle1Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle1Position.left = Math.random() * (screen.width * 0.9)
+            circle1.css({top: circle1Position.top, left: circle1Position.left})
+            // Circle 2
+            circle2Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle2Position.left = Math.random() * (screen.width * 0.9)
+            circle2.css({top: circle2Position.top, left: circle2Position.left})
+            // Circle 3
+            circle3Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle3Position.left = Math.random() * (screen.width * 0.9)
+            circle3.css({top: circle3Position.top, left: circle3Position.left})
+            // Circle 4
+            circle4Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle4Position.left = Math.random() * (screen.width * 0.9)
+            circle4.css({top: circle4Position.top, left: circle4Position.left})
+            // Circle 5
+            circle5Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle5Position.left = Math.random() * (screen.width * 0.9)
+            circle5.css({top: circle5Position.top, left: circle5Position.left})
+            // Circles attack as a group
+            groupAttack(circle1, circle2, circle3, circle4, circle5)
+        }, 8000)
+    }, 120000)
+
     /*
     Power-Ups Section
     */
@@ -224,28 +336,28 @@ $(document).ready(function(){
     })
 
     function grow() {
-        player.css({
-            "width": "60px",
-            "height": "60px",
-        })
+        player.animate({
+            "width": "40px",
+            "height": "40px",
+        }, 500)
         setTimeout(function(){
-            player.css({
+            player.animate({
                 "width": "20px",
                 "height": "20px",
-            })
+            }, 500)
         }, 5000)
     }
 
     function shrink() {
-        player.css({
+        player.animate({
             "width": "10px",
             "height": "10px",
-        })
+        }, 500)
         setTimeout(function(){
-            player.css({
+            player.animate({
                 "width": "20px",
                 "height": "20px",
-            })
+            }, 500)
         }, 5000)
     }
 
