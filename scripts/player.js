@@ -3,6 +3,7 @@ $(document).ready(function(){
     let speed = 10
     let dashSpeed = 100
     let dashReady = true
+
     //Initial player and gold position
     let position = {
         top: parseInt(player.css("top")),

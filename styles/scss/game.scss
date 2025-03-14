@@ -7,8 +7,12 @@
     visibility: hidden;
 }
 
-.ending-header {position: absolute; top: 15%;}
-.final-score {position: absolute; top: 25%;}
+.ending-header {position: absolute; top: 15%; z-index: 5;}
+.final-score {position: absolute; top: 25%; z-index: 5;}
+.final-gold {position: absolute; top: 30%; z-index: 5;}
+.final-time {position: absolute; top: 35%; z-index: 5;}
+.final-level {position: absolute; top: 40%; z-index: 5;}
+.ending-retry {position: absolute; top: 50%; z-index: 5;}
 
 .gui {
     background-color: black;
@@ -70,6 +74,7 @@
 }
 #player {
     background-color: $green;
+    border-radius: 50%;
     width: 20px;
     height: 20px;
     position: absolute;
@@ -79,6 +84,18 @@
 }
 .gold {
     background-color: $yellow;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    visibility: hidden;
+}
+
+.power-up {
+    background-image: radial-gradient(white, blue);
+    border-radius: 50%;
     width: 30px;
     height: 30px;
     position: absolute;
@@ -113,12 +130,12 @@
 }
 .line-1 {
     width: 100%;
-    height: 5%;
+    height: 10%;
     visibility: hidden;
 }
 .line-2 {
     width: 100%;
-    height: 5%;
+    height: 10%;
     visibility: hidden;
 }
 .line-3 {

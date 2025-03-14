@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game | Selfish Square</title>
+    <title>Game | Covetous Circle</title>
     <link rel="stylesheet" href="/styles/css/game.css">
     <script
     src="https://code.jquery.com/jquery-3.7.1.js"
@@ -13,6 +13,10 @@
 <body>
     <h1 class="game-over ending-header">GAME OVER</h1>
     <h2 class="game-over final-score">Score: 0000</h2>
+    <h2 class="game-over final-gold">Gold Collected: 0</h2>
+    <h2 class="game-over final-time">Time Survived: 0</h2>
+    <h2 class="game-over final-level">Level Reached: 1</h2>
+    <h3 class="game-over ending-retry">(Reload to retry)</h3>
 
     <div class="gui">
         <div class="gui-border">
@@ -21,6 +25,7 @@
                 <div class="hitpoint"></div>
                 <div class="hitpoint"></div>
             </div>
+            <h1 class="level">Level 1</h1>
             <div class="score-bar">
                 <h1 class="score">0000</h1>
             </div>
@@ -28,6 +33,7 @@
     </div>
     <div id="game-container">
         <div class="gold"></div>
+        <div class="power-up"></div>
         <div id="player"></div>
         <div class="obstacle box-1"></div>
         <div class="obstacle box-2"></div>
@@ -37,8 +43,8 @@
         <div class="obstacle line-3"></div>
         <div class="obstacle line-4"></div>
     </div>
-    <script src="/scripts/player.js"></script>
-    <script src="/scripts/gold.js"></script>
-    <script src="/scripts/obstacles.js"></script>
+    <script type="module" src="/scripts/player.js"></script>
+    <script type="module" src="/scripts/gold.js"></script>
+    <script type="module" src="/scripts/obstaclesAndPowers.js"></script>
 </body>
 </html>

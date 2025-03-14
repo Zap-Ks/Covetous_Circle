@@ -1,9 +1,11 @@
 $(document).ready(function(){
     let player = $("#player")
     let gold = $(".gold")
-    let score = $(".score")
-    let finalScore = $(".final-score")
+    let goldCollected = 0
     let playerScore = 0
+    let score = $(".score")
+    let finalGold = $(".final-gold")
+    let finalScore = $(".final-score")
     let isSpawning = false
     let goldPresent = false
     let goldSpawner;
@@ -26,7 +28,7 @@ $(document).ready(function(){
         }
     }, 1)
 
-    $(document).on("keydown", function(event){
+    $(document).on("keydown", function(){
         let playerBox = player[0].getBoundingClientRect()
         let goldBox = gold[0].getBoundingClientRect()
         if (
@@ -39,7 +41,8 @@ $(document).ready(function(){
                 goldPresent = false
                 gold.css("visibility","hidden")
                 isSpawning = false
-                playerScore++
+                goldCollected++
+                playerScore += Math.round(Math.random() * 10 + 5)
                 updateScore()
             }
         }
@@ -62,5 +65,6 @@ $(document).ready(function(){
             score.html(playerScore)
             finalScore.html(`Score: ${playerScore}`)
         }
+        finalGold.html(`Gold Collected: ${goldCollected}`)
     }
 })
