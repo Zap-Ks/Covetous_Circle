@@ -14,6 +14,13 @@ $(document).ready(function(){
     let survivalTimer;
     let damageSFX = new Audio("/sfx/Damage.mp3")
     damageSFX.volume = 0.1
+    let healingSFX = new Audio("/sfx/Healing.mp3")
+    healingSFX.volume = 0.2
+    let hallucinationSFX = new Audio("/sfx/Hallucination.mp3")
+    hallucinationSFX.volume = 0.2
+    let fake1Spawner;
+    let fake2Spawner;
+    let fake3Spawner;
     let box1Spawner;
     let box2Spawner;
     let box3Spawner;
@@ -21,7 +28,11 @@ $(document).ready(function(){
     let line2Spawner;
     let line3Spawner;
     let line4Spawner;
-    let circlesSpawner;
+    let circles1Spawner;
+    let circles2Spawner;
+    let fake1 = $(".dupeAttack1")
+    let fake2 = $(".dupeAttack2")
+    let fake3 = $(".dupeAttack3")
     let box1 = $(".box-1")
     let box2 = $(".box-2")
     let box3 = $(".box-3")
@@ -34,6 +45,14 @@ $(document).ready(function(){
     let circle3 = $(".circle-3")
     let circle4 = $(".circle-4")
     let circle5 = $(".circle-5")
+    let circle6 = $(".circle-6")
+    let circle7 = $(".circle-7")
+    let circle8 = $(".circle-8")
+    let circle9 = $(".circle-9")
+    let circle10 = $(".circle-10")
+    let fake1Position = {top: parseInt(box1.css("top")), left: parseInt(box1.css("left"))}
+    let fake2Position = {top: parseInt(box2.css("top")), left: parseInt(box2.css("left"))}
+    let fake3Position = {top: parseInt(box3.css("top")), left: parseInt(box3.css("left"))}
     let box1Position = {top: parseInt(box1.css("top")), left: parseInt(box1.css("left"))}
     let box2Position = {top: parseInt(box2.css("top")), left: parseInt(box2.css("left"))}
     let box3Position = {top: parseInt(box3.css("top")), left: parseInt(box3.css("left"))}
@@ -46,18 +65,29 @@ $(document).ready(function(){
     let circle3Position = {top: parseInt(circle3.css("top")), left: parseInt(circle3.css("left"))}
     let circle4Position = {top: parseInt(circle4.css("top")), left: parseInt(circle4.css("left"))}
     let circle5Position = {top: parseInt(circle5.css("top")), left: parseInt(circle5.css("left"))}
+    let circle6Position = {top: parseInt(circle6.css("top")), left: parseInt(circle6.css("left"))}
+    let circle7Position = {top: parseInt(circle7.css("top")), left: parseInt(circle7.css("left"))}
+    let circle8Position = {top: parseInt(circle8.css("top")), left: parseInt(circle8.css("left"))}
+    let circle9Position = {top: parseInt(circle9.css("top")), left: parseInt(circle9.css("left"))}
+    let circle10Position = {top: parseInt(circle10.css("top")), left: parseInt(circle10.css("left"))}
     let circleWidth = circle1.width()
     circle1.css("height", circleWidth)
     circle2.css("height", circleWidth)
     circle3.css("height", circleWidth)
     circle4.css("height", circleWidth)
     circle5.css("height", circleWidth)
+    circle6.css("height", circleWidth)
+    circle7.css("height", circleWidth)
+    circle8.css("height", circleWidth)
+    circle9.css("height", circleWidth)
+    circle10.css("height", circleWidth)
 
 
     function gameOver() {
         $("#player").css("position","static")
         $(".gold").animate({opacity: 0}, 0)
         $(".power-up").animate({opacity: 0}, 0)
+        $(".dupe").animate({opacity: 0}, 0)
         setTimeout(function(){
             $(".game-over").css("visibility", "visible")
         }, 3000)
@@ -71,7 +101,8 @@ $(document).ready(function(){
             clearInterval(line2Spawner)
             clearInterval(line3Spawner)
             clearInterval(line4Spawner)
-            clearInterval(circlesSpawner)
+            clearInterval(circles1Spawner)
+            clearInterval(circles2Spawner)
         }, 1)
     }
 
@@ -215,6 +246,47 @@ $(document).ready(function(){
         }, 1)
     }
 
+    function attackSequence(obstacle) {
+        obstacle.animate({opacity: 0}, 0)
+        obstacle.css("visibility","visible")
+        for (let i = 0; i <= 0.5; i+=0.0375) {
+            obstacle.animate({opacity: i}, 100)
+        }
+        obstacle.animate({opacity: 1}, 0)
+        let counter = 0
+        setTimeout(function(){
+            let attackDuration = setInterval(function(){
+                counter++
+                let playerBox = player[0].getBoundingClientRect()
+                let obstacleBox = obstacle[0].getBoundingClientRect()
+                if (
+                    playerBox.right > obstacleBox.left &&
+                    playerBox.left < obstacleBox.right &&
+                    playerBox.bottom > obstacleBox.top &&
+                    playerBox.top < obstacleBox.bottom
+                ){
+                    if (!invincible) {
+                        clearInterval(attackDuration)
+                        playerHealth--
+                        damageSFX.currentTime = 0
+                        damageSFX.play()
+                        obstacle.css("background-color","white")
+                        player.css("background-color","#F00")
+                        setTimeout(function(){
+                            obstacle.css("visibility","hidden")
+                            obstacle.css("background-color","red")
+                            player.css("background-color","#0F0")
+                        }, 250)
+                    }
+                }
+                if (counter >= 150) {
+                    clearInterval(attackDuration)
+                    obstacle.css("visibility","hidden")
+                }
+            }, 1)
+        }, 1500)
+    }
+
     let level1Delay = setTimeout(function(){
         box1Spawner = setInterval(function(){
             box1Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.075)
@@ -264,11 +336,11 @@ $(document).ready(function(){
                 attackSequence(line4)
             }, 5000)
         }, 500)
-    }, 45000)
+    }, 50000) //45 seconds after level 1
 
     let level3Delay = setTimeout(function(){
         setTimeout(function(){level++}, 10000)
-        circlesSpawner = setInterval(function(){
+        circles1Spawner = setInterval(function(){
             // Circle 1
             circle1Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
             circle1Position.left = Math.random() * (screen.width * 0.9)
@@ -292,24 +364,61 @@ $(document).ready(function(){
             // Circles attack as a group
             groupAttack(circle1, circle2, circle3, circle4, circle5)
         }, 10000)
-    }, 90000)
+    }, 95000) //90 seconds after level 1
+
+    let level4Delay = setTimeout(function(){
+        setTimeout(function(){level++}, 6000)
+        circles2Spawner = setInterval(function(){
+            // Circle 6
+            circle6Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle6Position.left = Math.random() * (screen.width * 0.9)
+            circle6.css({top: circle6Position.top, left: circle6Position.left})
+            // Circle 7
+            circle7Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle7Position.left = Math.random() * (screen.width * 0.9)
+            circle7.css({top: circle7Position.top, left: circle7Position.left})
+            // Circle 8
+            circle8Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle8Position.left = Math.random() * (screen.width * 0.9)
+            circle8.css({top: circle8Position.top, left: circle8Position.left})
+            // Circle 9
+            circle9Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle9Position.left = Math.random() * (screen.width * 0.9)
+            circle9.css({top: circle9Position.top, left: circle9Position.left})
+            // Circle 10
+            circle10Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
+            circle10Position.left = Math.random() * (screen.width * 0.9)
+            circle10.css({top: circle10Position.top, left: circle10Position.left})
+            // Circles attack as a group
+            groupAttack(circle6, circle7, circle8, circle9, circle10)
+        }, 6000)
+    }, 140000) //135 seconds after level 1
 
     /*
     Power-Ups Section
     */
     let powerUp = $(".power-up")
+    let dupe = $(".dupe")
     let invincibilitySFX = new Audio("/sfx/Invincibility.mp3")
     invincibilitySFX.volume = 0.1
-    let isSpawning = false
+    let powerIsSpawning = false
     let powerPresent = false
     let powerSpawner;
+    let dupeIsSpawning = false
+    let dupePresent = false
+    let dupeSpawner;
+    let dupeDuration;
     let powerPosition = {
         top: parseInt(powerUp.css("top")),
         left: parseInt(powerUp.css("left"))
     }
+    let dupePosition = {
+        top: parseInt(dupe.css("top")),
+        left: parseInt(dupe.css("left"))
+    }
 
     powerSpawner = setInterval(function(){
-        if (!isSpawning) {
+        if (!powerIsSpawning) {
             isSpawning = true
             let spawnTime = Math.round(Math.random() * 15000 + 10000)
             setTimeout(function(){
@@ -378,6 +487,7 @@ $(document).ready(function(){
     }
 
     function healing() {
+        healingSFX.play()
         if (playerHealth < 3 && playerHealth > 0) {
             playerHealth++
             $("#player").css("background-color","yellow")
@@ -422,5 +532,93 @@ $(document).ready(function(){
                 clearInterval(duration)
             }
         }, 1000)
+    }
+
+    let dupeDelay = setTimeout(function(){
+        dupeSpawner = setInterval(function(){
+            if (!dupeIsSpawning) {
+                dupeIsSpawning = true
+                let spawnTime = Math.round(Math.random() * 20000 + 15000)
+                setTimeout(function(){
+                    dupePosition.top = Math.random() * (screen.height/10 * 7) + (screen.height/10)
+                    dupePosition.left = Math.random() * (screen.width/10 * 8) + (screen.width/10)
+                    dupe.css({top: dupePosition.top, left: dupePosition.left})
+                    dupe.css("visibility","visible")
+                    dupePresent = true
+                    dupeDuration = setTimeout(function(){
+                        if (dupePresent) {
+                            dupePresent = false
+                            dupe.css("visibility","hidden")
+                            dupeIsSpawning = false
+                        }
+                    }, 12000)
+                }, spawnTime)
+            }
+        }, 1)
+    }, 30000)
+
+    $(document).on("keydown", function(){
+        let playerBox = player[0].getBoundingClientRect()
+        let dupeBox = dupe[0].getBoundingClientRect()
+        if (
+            playerBox.right > dupeBox.left &&
+            playerBox.left < dupeBox.right &&
+            playerBox.bottom > dupeBox.top &&
+            playerBox.top < dupeBox.bottom
+        ){
+            if (dupePresent) {
+                dupePresent = false
+                dupe.css("visibility","hidden")
+                dupeIsSpawning = false
+                hallucination()
+            }
+        }
+    })
+
+    function hallucination() {
+        hallucinationSFX.play()
+        let randomIllusion = Math.round(Math.random() * 3)
+        if (randomIllusion == 1) {
+            camouflage()
+        } else if (randomIllusion == 2) {
+            fakeAttacks()
+        } else {
+            invisible()
+        }
+    }
+
+    function camouflage() {
+        $("game-container").css("background-color","#B00")
+        setTimeout(function(){
+            $("game-container").css("background-color","black")
+        }, 5000)
+    }
+
+    function fakeAttacks() {
+        box1Spawner = setInterval(function(){
+            box1Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.075)
+            box1Position.left = Math.random() * (screen.width * 0.75)
+            box1.css({top: box1Position.top, left: box1Position.left})
+            dupeSequence(box1)
+        }, 5000)
+        box2Spawner = setInterval(function(){
+            box2Position.top = Math.random() * (screen.height * 0.45) + (screen.height * 0.075)
+            box2Position.left = Math.random() * (screen.width * 0.9)
+            box2.css({top: box2Position.top, left: box2Position.left})
+            dupeSequence(box2)
+        }, 4000)
+        box3Spawner = setInterval(function(){
+            box3Position.top = Math.random() * (screen.height * 0.5) + (screen.height * 0.075)
+            box3Position.left = Math.random() * (screen.width * 0.8)
+            box3.css({top: box3Position.top, left: box3Position.left})
+            dupeSequence(box3)
+        }, 3000)
+    }
+
+    function invisible() {
+        player.animate({opacity: 0}, 500)
+        setTimeout(function(){
+            player.animate({opacity: 1}, 500)
+        }, 5000)
     }
 })

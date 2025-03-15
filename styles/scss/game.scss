@@ -110,6 +110,33 @@
     top: 90%;
     left: 2.5%;
 }
+.dupe {
+    background-image: radial-gradient(lightgray, darkblue);
+    border-radius: 15%;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    visibility: hidden;
+}
+
+.dupeAttack1 {
+    width: 25%;
+    height: 15%;
+    visibility: hidden;
+}
+.dupeAttack2 {
+    width: 10%;
+    height: 30%;
+    visibility: hidden;
+}
+.dupeAttack3 {
+    width: 20%;
+    height: 25%;
+    visibility: hidden;
+}
 
 .obstacle {
     background-color: $red;
@@ -174,6 +201,31 @@
     visibility: hidden;
 }
 .circle-5 {
+    width: 10%;
+    border-radius: 50%;
+    visibility: hidden;
+}
+.circle-6 {
+    width: 10%;
+    border-radius: 50%;
+    visibility: hidden;
+}
+.circle-7 {
+    width: 10%;
+    border-radius: 50%;
+    visibility: hidden;
+}
+.circle-8 {
+    width: 10%;
+    border-radius: 50%;
+    visibility: hidden;
+}
+.circle-9 {
+    width: 10%;
+    border-radius: 50%;
+    visibility: hidden;
+}
+.circle-10 {
     width: 10%;
     border-radius: 50%;
     visibility: hidden;
