@@ -3,6 +3,8 @@ $(document).ready(function(){
     let speed = 10
     let dashSpeed = 100
     let dashReady = true
+    let dashSFX = new Audio("/sfx/Dash.mp3")
+    dashSFX.volume = 0.1
 
     //Initial player and gold position
     let position = {
@@ -53,11 +55,16 @@ $(document).ready(function(){
             }
         }
         function dashAnimation() {
+            dashSFX.play()
             $("#player").css("background-color","white")
             setTimeout(function(){$("#player").css("background-color","#BFB")}, 75)
             setTimeout(function(){$("#player").css("background-color","#7F7")}, 150)
             setTimeout(function(){$("#player").css("background-color","#3F3")}, 225)
             setTimeout(function(){$("#player").css("background-color","#0F0")}, 300)
+            setTimeout(function(){
+                dashSFX.pause()
+                dashSFX.currentTime = 0
+            }, 1000)
         }
         function dashCooldown() {
             dashReady = false

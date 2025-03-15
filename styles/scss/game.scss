@@ -104,6 +104,12 @@
     z-index: 3;
     visibility: hidden;
 }
+.power-timer {
+    color: white;
+    position: absolute;
+    top: 90%;
+    left: 2.5%;
+}
 
 .obstacle {
     background-color: $red;
@@ -112,7 +118,6 @@
     left: 0%;
     z-index: 1;
 }
-
 .box-1 {
     width: 25%;
     height: 15%;
@@ -150,31 +155,26 @@
 }
 .circle-1 {
     width: 10%;
-    height: 10%;
     border-radius: 50%;
     visibility: hidden;
 }
 .circle-2 {
     width: 10%;
-    height: 10%;
     border-radius: 50%;
     visibility: hidden;
 }
 .circle-3 {
     width: 10%;
-    height: 10%;
     border-radius: 50%;
     visibility: hidden;
 }
 .circle-4 {
     width: 10%;
-    height: 10%;
     border-radius: 50%;
     visibility: hidden;
 }
 .circle-5 {
     width: 10%;
-    height: 10%;
     border-radius: 50%;
     visibility: hidden;
 }

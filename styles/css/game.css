@@ -143,6 +143,13 @@ html, body {
   visibility: hidden;
 }
 
+.power-timer {
+  color: white;
+  position: absolute;
+  top: 90%;
+  left: 2.5%;
+}
+
 .obstacle {
   background-color: #F00;
   position: absolute;
@@ -195,35 +202,30 @@ html, body {
 
 .circle-1 {
   width: 10%;
-  height: 10%;
   border-radius: 50%;
   visibility: hidden;
 }
 
 .circle-2 {
   width: 10%;
-  height: 10%;
   border-radius: 50%;
   visibility: hidden;
 }
 
 .circle-3 {
   width: 10%;
-  height: 10%;
   border-radius: 50%;
   visibility: hidden;
 }
 
 .circle-4 {
   width: 10%;
-  height: 10%;
   border-radius: 50%;
   visibility: hidden;
 }
 
 .circle-5 {
   width: 10%;
-  height: 10%;
   border-radius: 50%;
   visibility: hidden;
 }/*# sourceMappingURL=game.css.map */
