@@ -2,6 +2,7 @@ $(document).ready(function(){
     /*
     Obstacles Section
     */
+    //Variables (LOTS OF THEM)
     let player = $("#player")
     let playerHealth = 3
     let level = 1
@@ -83,8 +84,56 @@ $(document).ready(function(){
     circle8.css("height", circleWidth)
     circle9.css("height", circleWidth)
     circle10.css("height", circleWidth)
+    let musicPlayer;
+    let musicPart1 = new Audio("/sfx/CovCircle1.wav")
+    let musicPart2 = new Audio("/sfx/CovCircle2.wav")
+    let musicPart3 = new Audio("/sfx/CovCircle3.wav")
+    let musicPart4 = new Audio("/sfx/CovCircle4.wav")
+    musicPart1.volume = 0.2
+    musicPart2.volume = 0.2
+    musicPart3.volume = 0.2
+    musicPart4.volume = 0.2
 
+    //Plays background music according to the level
+    //Credits to my sister, @Zodamyx on YouTube for making it
+    //Will mute it if you're currently invincible, so that you can hear the music that plays for the power-up
+    musicPlayer = setInterval(function(){
+        if (!invincible) {
+            musicPart1.volume = 0.2
+            musicPart2.volume = 0.2
+            musicPart3.volume = 0.2
+            musicPart4.volume = 0.2
+            if (level == 1) {
+                musicPart1.play()
+                musicPart2.pause()
+                musicPart3.pause()
+                musicPart4.pause()
+            } else if (level == 2) {
+                musicPart2.play()
+                musicPart1.pause()
+                musicPart3.pause()
+                musicPart4.pause()
+            } else if (level == 3) {
+                musicPart3.play()
+                musicPart1.pause()
+                musicPart2.pause()
+                musicPart4.pause()
+            } else {
+                musicPart4.play()
+                musicPart1.pause()
+                musicPart2.pause()
+                musicPart3.pause()
+            }
+        } else {
+            musicPart1.volume = 0
+            musicPart2.volume = 0
+            musicPart3.volume = 0
+            musicPart4.volume = 0
+        }
+    }, 1)
 
+    //Function that displays the game over screen
+    //It also hides everything else so things such as obstacles and gold aren't still being displayed
     function gameOver() {
         $("#player").css("position","static")
         $(".gold").animate({opacity: 0}, 0)
@@ -96,6 +145,11 @@ $(document).ready(function(){
         let stopIntervals = setInterval(function(){
             clearInterval(survivalTimer)
             clearInterval(updateLevel)
+            clearInterval(musicPlayer)
+            musicPart1.pause()
+            musicPart2.pause()
+            musicPart3.pause()
+            musicPart4.pause()
             clearInterval(box1Spawner)
             clearInterval(box2Spawner)
             clearInterval(box3Spawner)
@@ -109,11 +163,16 @@ $(document).ready(function(){
         }, 1)
     }
 
-    survivalTimer = setInterval(function(){
-        timeSurvived++
-        finalTime.html(`Time Survived: ${timeSurvived}`)
-    }, 1000)
-
+    //Keeps track of how long you've been alive for
+    //Doesn't include intermission
+    setTimeout(function(){
+        survivalTimer = setInterval(function(){
+            timeSurvived++
+            finalTime.html(`Time Survived: ${timeSurvived}`)
+        }, 1000)
+    }, 5000)
+    
+    //Updates the text displaying the current level
     setTimeout(function(){
         updateLevel = setInterval(function(){
             levelText.html(`Level ${level}`)
@@ -121,6 +180,7 @@ $(document).ready(function(){
         }, 1)
     }, 8000)
 
+    //Updates the health bar displaying the player's current health
     let updateHealth = setInterval(function(){
         $(".hitpoint").each(function(){
             $(this).css("background-color","#0F0")
@@ -139,6 +199,8 @@ $(document).ready(function(){
         }
     }, 1)
 
+    //Function that plays the obstacles' attack animations and controls hit detection
+    //(Doesn't apply to the circle obstacles)
     function attackSequence(obstacle) {
         obstacle.animate({opacity: 0}, 0)
         obstacle.css("visibility","visible")
@@ -148,6 +210,7 @@ $(document).ready(function(){
         obstacle.animate({opacity: 1}, 0)
         let counter = 0
         setTimeout(function(){
+            //Hit detection
             let attackDuration = setInterval(function(){
                 counter++
                 let playerBox = player[0].getBoundingClientRect()
@@ -158,7 +221,10 @@ $(document).ready(function(){
                     playerBox.bottom > obstacleBox.top &&
                     playerBox.top < obstacleBox.bottom
                 ){
+                    //Hits are nullified if the player is currently invincible
                     if (!invincible) {
+                        //Decreases the player's health by 1
+                        //Gets rid of the obstacle so you aren't hit by it multiple times
                         clearInterval(attackDuration)
                         playerHealth--
                         damageSFX.currentTime = 0
@@ -172,14 +238,16 @@ $(document).ready(function(){
                         }, 250)
                     }
                 }
+                //Gets rid of the obstacle after 150 milliseconds if it hasn't been touched
                 if (counter >= 150) {
                     clearInterval(attackDuration)
                     obstacle.css("visibility","hidden")
                 }
             }, 1)
-        }, 1500)
+        }, 1500) //1.5 second attack delay for warning
     }
 
+    //Function that plays the circle obstacles' attack animations
     function groupAttack(c1, c2, c3, c4, c5) {
         c1.animate({opacity: 0}, 0)
         c2.animate({opacity: 0}, 0)
@@ -198,6 +266,7 @@ $(document).ready(function(){
             c4.animate({opacity: i}, 100)
             c5.animate({opacity: i}, 100)
         }
+        //Each attack is spaced out by 250 milliseconds
         setTimeout(function(){
             circleAttack(c1)
             setTimeout(function(){
@@ -212,9 +281,10 @@ $(document).ready(function(){
                     }, 250)
                 }, 250)
             }, 250)
-    }, 1000)
+    }, 1000) //1 second attack delay for warning
     }
 
+    //Function that controls hit detection for the circle obstacles
     function circleAttack(obstacle) {
         obstacle.animate({opacity: 1}, 0)
         let counter = 0
@@ -228,7 +298,10 @@ $(document).ready(function(){
                 playerBox.bottom > obstacleBox.top &&
                 playerBox.top < obstacleBox.bottom
             ){
+                //Hits are nullified if the player is currently invincible
                 if (!invincible) {
+                    //Decreases the player's health by 1
+                    //Gets rid of the obstacle so you aren't hit by it multiple times
                     clearInterval(attackDuration)
                     playerHealth--
                     damageSFX.currentTime = 0
@@ -242,6 +315,7 @@ $(document).ready(function(){
                     }, 250)
                 }
             }
+            //Gets rid of the obstacle after 50 milliseconds if it hasn't been touched
             if (counter >= 50) {
                 clearInterval(attackDuration)
                 obstacle.css("visibility","hidden")
@@ -249,48 +323,9 @@ $(document).ready(function(){
         }, 1)
     }
 
-    function attackSequence(obstacle) {
-        obstacle.animate({opacity: 0}, 0)
-        obstacle.css("visibility","visible")
-        for (let i = 0; i <= 0.5; i+=0.0375) {
-            obstacle.animate({opacity: i}, 100)
-        }
-        obstacle.animate({opacity: 1}, 0)
-        let counter = 0
-        setTimeout(function(){
-            let attackDuration = setInterval(function(){
-                counter++
-                let playerBox = player[0].getBoundingClientRect()
-                let obstacleBox = obstacle[0].getBoundingClientRect()
-                if (
-                    playerBox.right > obstacleBox.left &&
-                    playerBox.left < obstacleBox.right &&
-                    playerBox.bottom > obstacleBox.top &&
-                    playerBox.top < obstacleBox.bottom
-                ){
-                    if (!invincible) {
-                        clearInterval(attackDuration)
-                        playerHealth--
-                        damageSFX.currentTime = 0
-                        damageSFX.play()
-                        obstacle.css("background-color","white")
-                        player.css("background-color","#F00")
-                        setTimeout(function(){
-                            obstacle.css("visibility","hidden")
-                            obstacle.css("background-color","red")
-                            player.css("background-color","#0F0")
-                        }, 250)
-                    }
-                }
-                if (counter >= 150) {
-                    clearInterval(attackDuration)
-                    obstacle.css("visibility","hidden")
-                }
-            }, 1)
-        }, 1500)
-    }
-
+    //Set delay before level 1 obstacles begin to appear
     let level1Delay = setTimeout(function(){
+        //Sets the randomized spawn points for the level 1 obstacles
         setTimeout(function(){nextLevelSFX.play()}, 3000)
         box1Spawner = setInterval(function(){
             box1Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.075)
@@ -310,10 +345,14 @@ $(document).ready(function(){
             box3.css({top: box3Position.top, left: box3Position.left})
             attackSequence(box3)
         }, 3000)
-    }, 5000)
+    }, 5000) //5 second intermission
 
+    //Set delay before level 2 obstacles begin to appear
     let level2Delay = setTimeout(function(){
+        //Increases the current level
         setTimeout(function(){level++; nextLevelSFX.play()}, 3000)
+        //Sets the randomized spawn points for the level 2 obstacles
+        //First pair of level 2 obstacles
         line1Spawner = setInterval(function(){
             line1Position.top = Math.random() * (screen.height * 0.65) + (screen.height * 0.065)
             line1Position.left = 0
@@ -327,6 +366,7 @@ $(document).ready(function(){
             attackSequence(line2)
         }, 5000)
         setTimeout(function(){
+            //Second pair of level 2 obstacles
             line3Spawner = setInterval(function(){
                 line3Position.top = 0
                 line3Position.left = Math.random() * (screen.width * 0.95)
@@ -339,11 +379,14 @@ $(document).ready(function(){
                 line4.css({top: line4Position.top, left: line4Position.left})
                 attackSequence(line4)
             }, 5000)
-        }, 500)
+        }, 500) //0.5 second delay for the other pair of level 2 obstacles
     }, 50000) //45 seconds after level 1
 
+    //Set delay before level 3 obstaccles begin to appear
     let level3Delay = setTimeout(function(){
+        //Increases the current level
         setTimeout(function(){level++; nextLevelSFX.play()}, 10000)
+        //Sets the randomized spawn points for the level 3 obstacles
         circles1Spawner = setInterval(function(){
             // Circle 1
             circle1Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
@@ -370,8 +413,11 @@ $(document).ready(function(){
         }, 10000)
     }, 95000) //90 seconds after level 1
 
+    //Set delay before level 4 obstacles begin to appear
     let level4Delay = setTimeout(function(){
+        //Increases the current level
         setTimeout(function(){level++; nextLevelSFX.play()}, 6000)
+        //Sets the randomized spawn points for the level 4 obstacles
         circles2Spawner = setInterval(function(){
             // Circle 6
             circle6Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
@@ -401,6 +447,7 @@ $(document).ready(function(){
     /*
     Power-Ups Section
     */
+    //Variables (Not as much as before, but still plenty)
     let powerUp = $(".power-up")
     let dupe = $(".dupe")
     let invincibilitySFX = new Audio("/sfx/Invincibility.mp3")
@@ -421,6 +468,7 @@ $(document).ready(function(){
         left: parseInt(dupe.css("left"))
     }
 
+    //Sets the power-up in a random spot after a random delay
     powerSpawner = setInterval(function(){
         if (!powerIsSpawning) {
             powerIsSpawning = true
@@ -435,6 +483,7 @@ $(document).ready(function(){
         }
     }, 1)
 
+    //Detects whether or not the player has taken the power-up
     $(document).on("keydown", function(){
         let playerBox = player[0].getBoundingClientRect()
         let powerBox = powerUp[0].getBoundingClientRect()
@@ -444,7 +493,10 @@ $(document).ready(function(){
             playerBox.bottom > powerBox.top &&
             playerBox.top < powerBox.bottom
         ){
+            //Prevents the player from taking the power-up if it's currently hidden
             if (powerPresent) {
+                //Gives the player 1 of 4 random effects
+                //Restarts the power-up spawning cycle
                 powerPresent = false
                 powerUp.css("visibility","hidden")
                 powerIsSpawning = false
@@ -462,6 +514,7 @@ $(document).ready(function(){
         }
     })
 
+    //Function that increases the player's size for 8 seconds
     function grow() {
         effectTimer("Enlarged", 8)
         player.animate({
@@ -476,6 +529,7 @@ $(document).ready(function(){
         }, 8000)
     }
 
+    //Function that decreases the player's size for 6 seconds
     function shrink() {
         effectTimer("Reduced", 6)
         player.animate({
@@ -490,6 +544,7 @@ $(document).ready(function(){
         }, 6000)
     }
 
+    //Function that heals the player by 1HP, unless they're already at max health
     function healing() {
         healingSFX.play()
         if (playerHealth < 3 && playerHealth > 0) {
@@ -502,6 +557,7 @@ $(document).ready(function(){
         }
     }
 
+    //Function that gives the player invincibility for 10 seconds
     function invincibility() {
         effectTimer("Invincible", 10)
         invincibilitySFX.currentTime = 34
@@ -525,6 +581,7 @@ $(document).ready(function(){
         }, 500)
     }
 
+    //Function that sets the text in the bottom left corner to show your current effect and the duration
     function effectTimer(effect, x) {
         let time = x
         $(".power-timer").html(`[${effect}] ${time}`)
@@ -538,7 +595,9 @@ $(document).ready(function(){
         }, 1000)
     }
 
+    //Delays the dupe spawner by 30 seconds
     let dupeDelay = setTimeout(function(){
+        //Sets the dupe in a random spot after a random delay
         dupeSpawner = setInterval(function(){
             if (!dupeIsSpawning) {
                 dupeIsSpawning = true
@@ -549,6 +608,8 @@ $(document).ready(function(){
                     dupe.css({top: dupePosition.top, left: dupePosition.left})
                     dupe.css("visibility","visible")
                     dupePresent = true
+                    //Makes the dupe disappear after 12 seconds if it hasn't been taken
+                    //Restarts the dupe spawning cycle as well
                     dupeDuration = setTimeout(function(){
                         if (dupePresent) {
                             dupePresent = false
@@ -561,6 +622,7 @@ $(document).ready(function(){
         }, 1)
     }, 30000)
 
+    //Detects whether or not the player has taken the dupe
     $(document).on("keydown", function(){
         let playerBox = player[0].getBoundingClientRect()
         let dupeBox = dupe[0].getBoundingClientRect()
@@ -570,7 +632,10 @@ $(document).ready(function(){
             playerBox.bottom > dupeBox.top &&
             playerBox.top < dupeBox.bottom
         ){
+            //Prevents the player from taking the dupe if it's currently hidden
             if (dupePresent) {
+                //Makes the player hallucinate
+                //Restarts the dupe spawning cycle
                 dupePresent = false
                 dupe.css("visibility","hidden")
                 dupeIsSpawning = false
@@ -579,6 +644,7 @@ $(document).ready(function(){
         }
     })
 
+    //Function that gives the player 1 of 3 random illusions
     function hallucination() {
         hallucinationSFX.play()
         let randomIllusion = Math.round(Math.random() * 3)
@@ -591,6 +657,7 @@ $(document).ready(function(){
         }
     }
 
+    //Function that makes the background red for 5 seconds
     function camouflage() {
         $("#game-container").css("background-color","#E00")
         setTimeout(function(){
@@ -598,10 +665,13 @@ $(document).ready(function(){
         }, 5000)
     }
 
+    //Function that makes fake obstacles that'll deal fake damage if you get hit by them
     function fakeAttacks() {
+        //Randomizes the spawn time of each fake obstacle
         let randomSpawn1 = Math.round(Math.random() * 2 + 3) * 1000
         let randomSpawn2 = Math.round(Math.random() * 2 + 3) * 1000
         let randomSpawn3 = Math.round(Math.random() * 2 + 3) * 1000
+        //Sets the positions of each fake obstacle
         fake1Spawner = setTimeout(function(){
             fake1Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.075)
             fake1Position.left = Math.random() * (screen.width * 0.75)
@@ -622,6 +692,7 @@ $(document).ready(function(){
         }, randomSpawn3)
     }
 
+    //Function that plays the FAKE obstacles' "attack" animations and controls hit detection
     function dupeSequence(obstacle) {
         obstacle.animate({opacity: 0}, 0)
         obstacle.css("visibility","visible")
@@ -631,6 +702,7 @@ $(document).ready(function(){
         obstacle.animate({opacity: 1}, 0)
         let counter = 0
         setTimeout(function(){
+            //Hit detection
             let attackDuration = setInterval(function(){
                 counter++
                 let playerBox = player[0].getBoundingClientRect()
@@ -641,7 +713,10 @@ $(document).ready(function(){
                     playerBox.bottom > obstacleBox.top &&
                     playerBox.top < obstacleBox.bottom
                 ){
+                    //Hits are nullified if the player is currently invincible
                     if (!invincible) {
+                        //Plays same SFX and animation, but doesn't actually deal damage
+                        //Gets rid of the obstacle so you aren't hit by it multiple times
                         clearInterval(attackDuration)
                         damageSFX.currentTime = 0
                         damageSFX.play()
@@ -654,14 +729,16 @@ $(document).ready(function(){
                         }, 250)
                     }
                 }
+                //Gets rid of the obstacle after 150 milliseconds if it hasn't been touched
                 if (counter >= 150) {
                     clearInterval(attackDuration)
                     obstacle.css("visibility","hidden")
                 }
             }, 1)
-        }, 1500)
+        }, 1500) //1.5 second "attack" delay for warning
     }
 
+    //Function that makes the player invisible for 5 seconds
     function invisible() {
         player.animate({opacity: 0}, 500)
         setTimeout(function(){

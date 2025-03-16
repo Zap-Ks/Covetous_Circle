@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    //Variables
     let player = $("#player")
     let gold = $(".gold")
     let goldCollected = 0
@@ -16,6 +17,7 @@ $(document).ready(function(){
         left: parseInt(gold.css("left"))
     }
 
+    //Spawns the gold in a random spot after a random delay
     goldSpawner = setInterval(function(){
         if (!isSpawning) {
             isSpawning = true
@@ -30,6 +32,7 @@ $(document).ready(function(){
         }
     }, 1)
 
+    //Detects whether or not the player has taken the gold
     $(document).on("keydown", function(){
         let playerBox = player[0].getBoundingClientRect()
         let goldBox = gold[0].getBoundingClientRect()
@@ -39,7 +42,11 @@ $(document).ready(function(){
             playerBox.bottom > goldBox.top &&
             playerBox.top < goldBox.bottom
         ){
+            //Prevents the player from taking the gold if it's currently hidden
             if (goldPresent) {
+                //Increases the gold collected by 1
+                //Increases the player's score by a random amount between 5 and 15
+                //Restarts the gold spawning cycle
                 goldPresent = false
                 gold.css("visibility","hidden")
                 isSpawning = false
@@ -51,6 +58,7 @@ $(document).ready(function(){
         }
     })
 
+    //Updates the counter displaying the player's score
     function updateScore() {
         if (playerScore < 10) {
             let scoreString = `000${playerScore}`
