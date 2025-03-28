@@ -474,7 +474,7 @@ $(document).ready(function(){
             powerIsSpawning = true
             let spawnTime = Math.round(Math.random() * 15000 + 10000)
             setTimeout(function(){
-                powerPosition.top = Math.random() * (screen.height/10 * 7) + (screen.height/10)
+                powerPosition.top = Math.random() * (screen.height/10 * 6.5) + (screen.height/10)
                 powerPosition.left = Math.random() * (screen.width/10 * 8) + (screen.width/10)
                 powerUp.css({top: powerPosition.top, left: powerPosition.left})
                 powerUp.css("visibility","visible")
@@ -603,7 +603,7 @@ $(document).ready(function(){
                 dupeIsSpawning = true
                 let spawnTime = Math.round(Math.random() * 20000 + 15000)
                 setTimeout(function(){
-                    dupePosition.top = Math.random() * (screen.height/10 * 7) + (screen.height/10)
+                    dupePosition.top = Math.random() * (screen.height/10 * 6.5) + (screen.height/10)
                     dupePosition.left = Math.random() * (screen.width/10 * 8) + (screen.width/10)
                     dupe.css({top: dupePosition.top, left: dupePosition.left})
                     dupe.css("visibility","visible")

@@ -179,7 +179,7 @@ html, body {
 
 .dupe {
   background-image: radial-gradient(white, blue);
-  border-radius: 15%;
+  border-radius: 30%;
   width: 30px;
   height: 30px;
   position: absolute;
