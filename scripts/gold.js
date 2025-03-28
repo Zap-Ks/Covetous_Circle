@@ -71,7 +71,7 @@ $(document).ready(function(){
         } else if (playerScore < 1000) {
             let scoreString = `0${playerScore}`
             score.html(scoreString)
-            ffinalScore.html(`Score: ${scoreString}`)
+            finalScore.html(`Score: ${scoreString}`)
         } else {
             score.html(playerScore)
             finalScore.html(`Score: ${playerScore}`)
