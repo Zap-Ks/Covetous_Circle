@@ -484,7 +484,7 @@ $(document).ready(function(){
     }, 1)
 
     //Detects whether or not the player has taken the power-up
-    $(document).on("keydown", function(){
+    let powerCollision = setInterval(function(){
         let playerBox = player[0].getBoundingClientRect()
         let powerBox = powerUp[0].getBoundingClientRect()
         if (
@@ -512,7 +512,7 @@ $(document).ready(function(){
                 }
             }
         }
-    })
+    }, 1)
 
     //Function that increases the player's size for 8 seconds
     function grow() {
@@ -623,7 +623,7 @@ $(document).ready(function(){
     }, 30000)
 
     //Detects whether or not the player has taken the dupe
-    $(document).on("keydown", function(){
+    let dupeCollision = setInterval(function(){
         let playerBox = player[0].getBoundingClientRect()
         let dupeBox = dupe[0].getBoundingClientRect()
         if (
@@ -642,7 +642,7 @@ $(document).ready(function(){
                 hallucination()
             }
         }
-    })
+    }, 1)
 
     //Function that gives the player 1 of 3 random illusions
     function hallucination() {

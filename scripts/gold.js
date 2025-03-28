@@ -33,7 +33,7 @@ $(document).ready(function(){
     }, 1)
 
     //Detects whether or not the player has taken the gold
-    $(document).on("keydown", function(){
+    let goldCollision = setInterval(function(){
         let playerBox = player[0].getBoundingClientRect()
         let goldBox = gold[0].getBoundingClientRect()
         if (
@@ -56,7 +56,7 @@ $(document).ready(function(){
                 updateScore()
             }
         }
-    })
+    }, 1)
 
     //Updates the counter displaying the player's score
     function updateScore() {
