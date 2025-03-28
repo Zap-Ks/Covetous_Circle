@@ -668,9 +668,9 @@ $(document).ready(function(){
     //Function that makes fake obstacles that'll deal fake damage if you get hit by them
     function fakeAttacks() {
         //Randomizes the spawn time of each fake obstacle
-        let randomSpawn1 = Math.round(Math.random() * 2 + 3) * 1000
-        let randomSpawn2 = Math.round(Math.random() * 2 + 3) * 1000
-        let randomSpawn3 = Math.round(Math.random() * 2 + 3) * 1000
+        let randomSpawn1 = Math.round(Math.random() * 2 + 1) * 1000
+        let randomSpawn2 = Math.round(Math.random() * 2 + 1) * 1000
+        let randomSpawn3 = Math.round(Math.random() * 2 + 1) * 1000
         //Sets the positions of each fake obstacle
         fake1Spawner = setTimeout(function(){
             fake1Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.075)
