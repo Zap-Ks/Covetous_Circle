@@ -7,7 +7,7 @@ $(document).ready(function(){
     let score = $(".score")
     let finalGold = $(".final-gold")
     let finalScore = $(".final-score")
-    let goldSFX = new Audio("/sfx/Gold.mp3")
+    let goldSFX = new Audio("./sfx/Gold.mp3")
     goldSFX.volume = 0.2
     let isSpawning = false
     let goldPresent = false

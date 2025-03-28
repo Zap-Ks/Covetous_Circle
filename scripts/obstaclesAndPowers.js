@@ -13,13 +13,13 @@ $(document).ready(function(){
     let invincible = false
     let updateLevel;
     let survivalTimer;
-    let nextLevelSFX = new Audio("/sfx/NextLevel.mp3")
+    let nextLevelSFX = new Audio("./sfx/NextLevel.mp3")
     nextLevelSFX.volume = 0.1
-    let damageSFX = new Audio("/sfx/Damage.mp3")
+    let damageSFX = new Audio("./sfx/Damage.mp3")
     damageSFX.volume = 0.1
-    let healingSFX = new Audio("/sfx/Healing.mp3")
+    let healingSFX = new Audio("./sfx/Healing.mp3")
     healingSFX.volume = 0.2
-    let hallucinationSFX = new Audio("/sfx/Hallucination.mp3")
+    let hallucinationSFX = new Audio("./sfx/Hallucination.mp3")
     hallucinationSFX.volume = 0.2
     let fake1Spawner;
     let fake2Spawner;
@@ -85,10 +85,10 @@ $(document).ready(function(){
     circle9.css("height", circleWidth)
     circle10.css("height", circleWidth)
     let musicPlayer;
-    let musicPart1 = new Audio("/sfx/CovCircle1.wav")
-    let musicPart2 = new Audio("/sfx/CovCircle2.wav")
-    let musicPart3 = new Audio("/sfx/CovCircle3.wav")
-    let musicPart4 = new Audio("/sfx/CovCircle4.wav")
+    let musicPart1 = new Audio("./sfx/CovCircle1.wav")
+    let musicPart2 = new Audio("./sfx/CovCircle2.wav")
+    let musicPart3 = new Audio("./sfx/CovCircle3.wav")
+    let musicPart4 = new Audio("./sfx/CovCircle4.wav")
     musicPart1.volume = 0.2
     musicPart2.volume = 0.2
     musicPart3.volume = 0.2
@@ -450,7 +450,7 @@ $(document).ready(function(){
     //Variables (Not as much as before, but still plenty)
     let powerUp = $(".power-up")
     let dupe = $(".dupe")
-    let invincibilitySFX = new Audio("/sfx/Invincibility.mp3")
+    let invincibilitySFX = new Audio("./sfx/Invincibility.mp3")
     invincibilitySFX.volume = 0.1
     let powerIsSpawning = false
     let powerPresent = false
