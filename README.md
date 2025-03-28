@@ -6,3 +6,4 @@ This is a jQuery game I've created for a project. It's about a green circle that
 - [@Brain-09](https://www.github.com/Brian-09)
 ## 🔗 Links
 [![repository](https://img.shields.io/badge/repository-000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Brian-09/Covetous_Circle)
+[![github pages](https://img.shields.io/badge/github_pages-000?style=for-the-badge&logo=github&logoColor=white)](https://brian-09.github.io/Covetous_Circle/)
