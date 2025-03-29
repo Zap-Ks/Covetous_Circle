@@ -565,7 +565,7 @@ $(document).ready(function(){
     //Function that heals the player by 1HP, unless they're already at max health
     function healing() {
         healingSFX.play()
-        if (playerHealth < 3 && playerHealth > 0 &&) {
+        if (playerHealth < 3 && playerHealth > 0) {
             playerHealth = 3
             healingAnimation()
         }
