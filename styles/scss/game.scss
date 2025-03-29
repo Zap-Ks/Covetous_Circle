@@ -131,6 +131,7 @@
     position: absolute;
     top: 90%;
     left: 2.5%;
+    z-index: 5;
 }
 .dupe {
     background-image: radial-gradient(white, blue);
@@ -167,6 +168,7 @@
     position: absolute;
     top: 90%;
     left: 82.5%;
+    z-index: 5;
     visibility: hidden;
     opacity: 0;
 }
