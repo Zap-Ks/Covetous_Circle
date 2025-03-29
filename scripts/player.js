@@ -1,8 +1,8 @@
 $(document).ready(function(){
     //Variables
     let player = $("#player")
-    let speed = 4
-    let dashSpeed = 150
+    let speed = player.width() / 5
+    let dashSpeed = player.width() * 7.5
     let dashReady = true
     let dashSFX = new Audio("./scripts/sfx/Dash.mp3")
     dashSFX.volume = 0.1
@@ -11,6 +11,7 @@ $(document).ready(function(){
     let leftMove = false
     let rightMove = false
     let dashMove = false
+    let playerWidth = player.width()
 
     //Initial player position
     let position = {
@@ -97,7 +98,7 @@ $(document).ready(function(){
         let collision = false
         $("#game-container").each(function(){
             let wall = $(this)[0].getBoundingClientRect()
-            let playerRect = {top:newTop, left:newLeft, right:newLeft+20, bottom:newTop+20}
+            let playerRect = {top:newTop, left:newLeft, right:newLeft+playerWidth, bottom:newTop+playerWidth}
             if(
                 playerRect.left < wall.left ||
                 playerRect.right > wall.right ||

@@ -139,8 +139,7 @@ html, body {
 #player {
   background-color: #0F0;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 1.25%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -149,8 +148,7 @@ html, body {
 
 .gold {
   background-color: #FF0;
-  width: 30px;
-  height: 30px;
+  width: 2%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -161,8 +159,7 @@ html, body {
 .power-up {
   background-image: radial-gradient(white, blue);
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 2%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -180,8 +177,7 @@ html, body {
 .dupe {
   background-image: radial-gradient(white, blue);
   border-radius: 30%;
-  width: 30px;
-  height: 30px;
+  width: 2%;
   position: absolute;
   top: 50%;
   left: 50%;

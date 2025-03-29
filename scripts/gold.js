@@ -12,6 +12,8 @@ $(document).ready(function(){
     let isSpawning = false
     let goldPresent = false
     let goldSpawner;
+    let goldWidth = gold.width()
+    gold.css("height", goldWidth)
     let goldPosition = {
         top: parseInt(gold.css("top")),
         left: parseInt(gold.css("left"))

@@ -91,6 +91,8 @@ $(document).ready(function(){
     circle8.css("height", circleWidth)
     circle9.css("height", circleWidth)
     circle10.css("height", circleWidth)
+    let playerWidth = player.width()
+    player.css("height", playerWidth)
     let musicPlayer;
     let musicPart1 = new Audio("./scripts/sfx/CovCircle1.wav")
     let musicPart2 = new Audio("./scripts/sfx/CovCircle2.wav")
@@ -164,6 +166,8 @@ $(document).ready(function(){
             clearInterval(line2Spawner)
             clearInterval(line3Spawner)
             clearInterval(line4Spawner)
+            clearInterval(line5Spawner)
+            clearInterval(line6Spawner)
             clearInterval(circles1Spawner)
             clearInterval(circles2Spawner)
             nextLevelSFX.pause()
@@ -496,6 +500,10 @@ $(document).ready(function(){
     let dupePresent = false
     let dupeSpawner;
     let dupeDuration;
+    let powerWidth = powerUp.width()
+    powerUp.css("height", powerWidth)
+    let dupeWidth = dupe.width()
+    dupe.css("height", dupeWidth)
     let powerPosition = {
         top: parseInt(powerUp.css("top")),
         left: parseInt(powerUp.css("left"))
@@ -556,13 +564,13 @@ $(document).ready(function(){
         tookDamage = false
         effectTimer("Enlarged", 8)
         player.animate({
-            "width": "40px",
-            "height": "40px",
+            "width": playerWidth*2,
+            "height": playerWidth*2,
         }, 500)
         setTimeout(function(){
             player.animate({
-                "width": "20px",
-                "height": "20px",
+                "width": playerWidth,
+                "height": playerWidth,
             }, 500)
             //If the player manages to 
             if (tookDamage == false && playerHealth <= 6) {
@@ -577,13 +585,13 @@ $(document).ready(function(){
     function shrink() {
         effectTimer("Reduced", 6)
         player.animate({
-            "width": "10px",
-            "height": "10px",
+            "width": playerWidth/2,
+            "height": playerWidth/2,
         }, 500)
         setTimeout(function(){
             player.animate({
-                "width": "20px",
-                "height": "20px",
+                "width": playerWidth,
+                "height": playerWidth,
             }, 500)
         }, 6000)
     }
