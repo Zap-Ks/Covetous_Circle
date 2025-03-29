@@ -11,15 +11,16 @@ $(document).ready(function(){
     let finalLevel = $(".final-level")
     let finalTime = $(".final-time")
     let invincible = false
+    let tookDamage = false
     let updateLevel;
     let survivalTimer;
-    let nextLevelSFX = new Audio("./sfx/NextLevel.mp3")
+    let nextLevelSFX = new Audio("./scripts/sfx/NextLevel.mp3")
     nextLevelSFX.volume = 0.1
-    let damageSFX = new Audio("./sfx/Damage.mp3")
+    let damageSFX = new Audio("./scripts/sfx/Damage.mp3")
     damageSFX.volume = 0.1
-    let healingSFX = new Audio("./sfx/Healing.mp3")
+    let healingSFX = new Audio("./scripts/sfx/Healing.mp3")
     healingSFX.volume = 0.2
-    let hallucinationSFX = new Audio("./sfx/Hallucination.mp3")
+    let hallucinationSFX = new Audio("./scripts/sfx/Hallucination.mp3")
     hallucinationSFX.volume = 0.2
     let fake1Spawner;
     let fake2Spawner;
@@ -85,10 +86,10 @@ $(document).ready(function(){
     circle9.css("height", circleWidth)
     circle10.css("height", circleWidth)
     let musicPlayer;
-    let musicPart1 = new Audio("./sfx/CovCircle1.wav")
-    let musicPart2 = new Audio("./sfx/CovCircle2.wav")
-    let musicPart3 = new Audio("./sfx/CovCircle3.wav")
-    let musicPart4 = new Audio("./sfx/CovCircle4.wav")
+    let musicPart1 = new Audio("./scripts/sfx/CovCircle1.wav")
+    let musicPart2 = new Audio("./scripts/sfx/CovCircle2.wav")
+    let musicPart3 = new Audio("./scripts/sfx/CovCircle3.wav")
+    let musicPart4 = new Audio("./scripts/sfx/CovCircle4.wav")
     musicPart1.volume = 0.2
     musicPart2.volume = 0.2
     musicPart3.volume = 0.2
@@ -185,6 +186,15 @@ $(document).ready(function(){
         $(".hitpoint").each(function(){
             $(this).css("background-color","#0F0")
         })
+        if (playerHealth >= 6) {
+            $(".hitpoint:nth-of-type(3)").css("background-color","#0FF")
+        }
+        if (playerHealth >= 5) {
+            $(".hitpoint:nth-of-type(2)").css("background-color","#0FF")
+        }
+        if (playerHealth >= 4) {
+            $(".hitpoint:nth-of-type(1)").css("background-color","#0FF")
+        }
         if (playerHealth <= 2) {
             $(".hitpoint:nth-of-type(3)").css("background-color","#000")
         }
@@ -227,6 +237,7 @@ $(document).ready(function(){
                         //Gets rid of the obstacle so you aren't hit by it multiple times
                         clearInterval(attackDuration)
                         playerHealth--
+                        tookDamage = true
                         damageSFX.currentTime = 0
                         damageSFX.play()
                         obstacle.css("background-color","white")
@@ -304,6 +315,7 @@ $(document).ready(function(){
                     //Gets rid of the obstacle so you aren't hit by it multiple times
                     clearInterval(attackDuration)
                     playerHealth--
+                    tookDamage = true
                     damageSFX.currentTime = 0
                     damageSFX.play()
                     obstacle.css("background-color","white")
@@ -450,7 +462,7 @@ $(document).ready(function(){
     //Variables (Not as much as before, but still plenty)
     let powerUp = $(".power-up")
     let dupe = $(".dupe")
-    let invincibilitySFX = new Audio("./sfx/Invincibility.mp3")
+    let invincibilitySFX = new Audio("./scripts/sfx/Invincibility.mp3")
     invincibilitySFX.volume = 0.1
     let powerIsSpawning = false
     let powerPresent = false
@@ -482,7 +494,7 @@ $(document).ready(function(){
             }, spawnTime)
         }
     }, 1)
-
+    
     //Detects whether or not the player has taken the power-up
     let powerCollision = setInterval(function(){
         let playerBox = player[0].getBoundingClientRect()
@@ -516,6 +528,7 @@ $(document).ready(function(){
 
     //Function that increases the player's size for 8 seconds
     function grow() {
+        tookDamage = false
         effectTimer("Enlarged", 8)
         player.animate({
             "width": "40px",
@@ -526,6 +539,11 @@ $(document).ready(function(){
                 "width": "20px",
                 "height": "20px",
             }, 500)
+            //If the player manages to 
+            if (tookDamage == false && playerHealth <= 6) {
+                playerHealth++
+                healingAnimation()
+            }
         }, 8000)
     }
 
@@ -547,14 +565,18 @@ $(document).ready(function(){
     //Function that heals the player by 1HP, unless they're already at max health
     function healing() {
         healingSFX.play()
-        if (playerHealth < 3 && playerHealth > 0) {
-            playerHealth++
-            $("#player").css("background-color","yellow")
-            setTimeout(function(){$("#player").css("background-color","#BF0")}, 400)
-            setTimeout(function(){$("#player").css("background-color","#7F0")}, 600)
-            setTimeout(function(){$("#player").css("background-color","#3F0")}, 800)
-            setTimeout(function(){$("#player").css("background-color","#0F0")}, 1000)
+        if (playerHealth < 3 && playerHealth > 0 &&) {
+            playerHealth = 3
+            healingAnimation()
         }
+    }
+
+    function healingAnimation() {
+        $("#player").css("background-color","yellow")
+        setTimeout(function(){$("#player").css("background-color","#BF0")}, 400)
+        setTimeout(function(){$("#player").css("background-color","#7F0")}, 600)
+        setTimeout(function(){$("#player").css("background-color","#3F0")}, 800)
+        setTimeout(function(){$("#player").css("background-color","#0F0")}, 1000)
     }
 
     //Function that gives the player invincibility for 10 seconds

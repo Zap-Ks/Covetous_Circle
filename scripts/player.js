@@ -4,7 +4,7 @@ $(document).ready(function(){
     let speed = 4
     let dashSpeed = 150
     let dashReady = true
-    let dashSFX = new Audio("./sfx/Dash.mp3")
+    let dashSFX = new Audio("./scripts/sfx/Dash.mp3")
     dashSFX.volume = 0.1
     let upMove = false
     let downMove = false
@@ -134,6 +134,6 @@ $(document).ready(function(){
         dashReady = false
         let cooldown = setTimeout(function(){
             dashReady = true
-        }, 1500)
+        }, 1000)
     }
 })
