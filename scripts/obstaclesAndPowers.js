@@ -32,6 +32,8 @@ $(document).ready(function(){
     let line2Spawner;
     let line3Spawner;
     let line4Spawner;
+    let line5Spawner;
+    let line6Spawner;
     let circles1Spawner;
     let circles2Spawner;
     let fake1 = $(".dupeAttack1")
@@ -44,6 +46,8 @@ $(document).ready(function(){
     let line2 = $(".line-2")
     let line3 = $(".line-3")
     let line4 = $(".line-4")
+    let line5 = $(".line-5")
+    let line6 = $(".line-6")
     let circle1 = $(".circle-1")
     let circle2 = $(".circle-2")
     let circle3 = $(".circle-3")
@@ -64,6 +68,8 @@ $(document).ready(function(){
     let line2Position = {top: parseInt(line2.css("top")), left: parseInt(line2.css("left"))}
     let line3Position = {top: parseInt(line3.css("top")), left: parseInt(line3.css("left"))}
     let line4Position = {top: parseInt(line4.css("top")), left: parseInt(line4.css("left"))}
+    let line5Position = {top: parseInt(line5.css("top")), left: parseInt(line5.css("left"))}
+    let line6Position = {top: parseInt(line6.css("top")), left: parseInt(line6.css("left"))}
     let circle1Position = {top: parseInt(circle1.css("top")), left: parseInt(circle1.css("left"))}
     let circle2Position = {top: parseInt(circle2.css("top")), left: parseInt(circle2.css("left"))}
     let circle3Position = {top: parseInt(circle3.css("top")), left: parseInt(circle3.css("left"))}
@@ -425,11 +431,30 @@ $(document).ready(function(){
         }, 10000)
     }, 95000) //90 seconds after level 1
 
-    //Set delay before level 4 obstacles begin to appear
+    //Set delay before level 2 obstacles begin to appear
     let level4Delay = setTimeout(function(){
         //Increases the current level
-        setTimeout(function(){level++; nextLevelSFX.play()}, 6000)
+        setTimeout(function(){level++; nextLevelSFX.play()}, 4000)
         //Sets the randomized spawn points for the level 4 obstacles
+        line5Spawner = setInterval(function(){
+            line5Position.top = Math.random() * (screen.height * 0.55) + (screen.height * 0.065)
+            line5Position.left = 0
+            line5.css({top: line5Position.top, left: line5Position.left})
+            attackSequence(line5)
+        }, 4000)
+        line6Spawner = setInterval(function(){
+            line6Position.top = 0
+            line6Position.left = Math.random() * (screen.width * 0.9)
+            line6.css({top: line6Position.top, left: line6Position.left})
+            attackSequence(line6)
+        }, 4000)
+    }, 140000) //135 seconds after level 1
+
+    //Set delay before level 4 obstacles begin to appear
+    let level5Delay = setTimeout(function(){
+        //Increases the current level
+        setTimeout(function(){level++; nextLevelSFX.play()}, 6000)
+        //Sets the randomized spawn points for the level 5 obstacles
         circles2Spawner = setInterval(function(){
             // Circle 6
             circle6Position.top = Math.random() * (screen.height * 0.6) + (screen.height * 0.065)
@@ -454,7 +479,7 @@ $(document).ready(function(){
             // Circles attack as a group
             groupAttack(circle6, circle7, circle8, circle9, circle10)
         }, 6000)
-    }, 140000) //135 seconds after level 1
+    }, 185000) //180 seconds after level 1
 
     /*
     Power-Ups Section
@@ -542,6 +567,7 @@ $(document).ready(function(){
             //If the player manages to 
             if (tookDamage == false && playerHealth <= 6) {
                 playerHealth++
+                healingSFX.play()
                 healingAnimation()
             }
         }, 8000)
