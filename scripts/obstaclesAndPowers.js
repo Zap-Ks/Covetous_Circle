@@ -573,7 +573,7 @@ $(document).ready(function(){
                 "height": playerWidth,
             }, 500)
             //If the player manages to 
-            if (tookDamage == false && playerHealth <= 6) {
+            if (tookDamage == false && playerHealth < 6) {
                 playerHealth++
                 healingSFX.play()
                 healingAnimation()
