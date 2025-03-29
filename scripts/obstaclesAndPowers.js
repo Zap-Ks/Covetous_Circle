@@ -10,6 +10,7 @@ $(document).ready(function(){
     let levelText = $(".level")
     let finalLevel = $(".final-level")
     let finalTime = $(".final-time")
+    let liveSurvivalTime = $(".survival-time")
     let invincible = false
     let tookDamage = false
     let updateLevel;
@@ -177,11 +178,14 @@ $(document).ready(function(){
     //Keeps track of how long you've been alive for
     //Doesn't include intermission
     setTimeout(function(){
+        liveSurvivalTime.css("visibility", "visible")
+        liveSurvivalTime.animate({opacity: 1}, 500)
         survivalTimer = setInterval(function(){
             timeSurvived++
             finalTime.html(`Time Survived: ${timeSurvived}`)
+            liveSurvivalTime.html(`Time: ${timeSurvived}`)
         }, 1000)
-    }, 5000)
+    }, 8000)
     
     //Updates the text displaying the current level
     setTimeout(function(){
@@ -367,7 +371,7 @@ $(document).ready(function(){
             box3.css({top: box3Position.top, left: box3Position.left})
             attackSequence(box3)
         }, 3000)
-    }, 5000) //5 second intermission
+    }, 5000) //8 second intermission
 
     //Set delay before level 2 obstacles begin to appear
     let level2Delay = setTimeout(function(){
@@ -433,7 +437,7 @@ $(document).ready(function(){
             // Circles attack as a group
             groupAttack(circle1, circle2, circle3, circle4, circle5)
         }, 10000)
-    }, 95000) //90 seconds after level 1
+    }, 88000) //90 seconds after level 1
 
     //Set delay before level 2 obstacles begin to appear
     let level4Delay = setTimeout(function(){
@@ -452,7 +456,7 @@ $(document).ready(function(){
             line6.css({top: line6Position.top, left: line6Position.left})
             attackSequence(line6)
         }, 4000)
-    }, 140000) //135 seconds after level 1
+    }, 139000) //135 seconds after level 1
 
     //Set delay before level 4 obstacles begin to appear
     let level5Delay = setTimeout(function(){
@@ -483,7 +487,7 @@ $(document).ready(function(){
             // Circles attack as a group
             groupAttack(circle6, circle7, circle8, circle9, circle10)
         }, 6000)
-    }, 185000) //180 seconds after level 1
+    }, 182000) //180 seconds after level 1
 
     /*
     Power-Ups Section
